@@ -7,6 +7,8 @@ __pycache__/
 # Environment
 .env
 .env.local
+.sentence-transformers
+.hf-cache
 
 # OS
 .DS_Store
