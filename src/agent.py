@@ -14,9 +14,23 @@ class KnowledgeBaseAgent:
     """
 
     def __init__(self, store: EmbeddingStore, llm_fn: Callable[[str], str]) -> None:
-        # TODO: store references to store and llm_fn
-        pass
+        self.store = store
+        self.llm_fn = llm_fn
 
     def answer(self, question: str, top_k: int = 3) -> str:
-        # TODO: retrieve chunks, build prompt, call llm_fn
-        raise NotImplementedError("Implement KnowledgeBaseAgent.answer")
+        retrieved = self.store.search(question, top_k=top_k)
+        if retrieved:
+            context_lines = [
+                f"{idx + 1}. {item['content']}" for idx, item in enumerate(retrieved)
+            ]
+            context = "\n".join(context_lines)
+        else:
+            context = "No relevant context found."
+
+        prompt = (
+            "You are a helpful assistant. Answer the user question using only the context below.\n\n"
+            f"Context:\n{context}\n\n"
+            f"Question: {question}\n"
+            "Answer:"
+        )
+        return self.llm_fn(prompt)
