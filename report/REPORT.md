@@ -121,6 +121,7 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 | Ngô Quang Tăng | `SentenceChunker` (`3 sent/chunk`) | 8.9/10 | Giữ instructions trọn vẹn, semantic units | Chunks không đều |
 | Vũ Đức Minh | `RecursiveChunker` (`chunk_size=400`) | 6/10 | Giữ context tốt, phù hợp với tài liệu có section, steps và internal notes | Tạo nhiều chunk hơn và chưa vượt trội rõ rệt về điểm số khi chỉ dùng `_mock_embed` |
 | Nguyễn Thế Anh | `FixedSizeChunker` | 8/10 | Giữ ngữ cảnh liên tục, chuẩn hóa chunk | Có thể cắt giữa câu nếu câu dài hơn 500 ký tự |
+| Phạm Minh Khôi | `RecursiveChunker` | 8.5/10 | Giữ được ngữ cảnh theo section và bullet tốt, phù hợp cấu trúc doc. | Đôi lúc tạo ra chunk hơi nhiều, cần cấu hình độ dài cẩn thận. |
 
 **Strategy nào tốt nhất cho domain này? Tại sao?**
 > Trên bộ dữ liệu nhóm, `SentenceChunker` là strategy tốt nhất cho domain customer support vì đạt điểm retrieval cao nhất (8.9/10) và giữ các bước hướng dẫn theo semantic unit rõ ràng. `RecursiveChunker` vẫn là phương án cân bằng, phù hợp khi cần giữ cấu trúc section và bullet ổn định trên nhiều loại tài liệu. `FixedSizeChunker` dễ chuẩn hóa nhưng có rủi ro cắt giữa ý, nên kém tối ưu hơn cho các truy vấn cần instruction liền mạch.
